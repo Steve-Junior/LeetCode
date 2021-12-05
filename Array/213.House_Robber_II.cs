@@ -7,45 +7,41 @@ public class Solution
     {
         //Since House[1] and House[n] are adjacent, they cannot be robbed together. Therefore, the problem becomes to rob either House[1]-House[n-1] or House[2]-House[n]
 
-        var result = 0;
+        if (nums.Length == 0) return 0;
 
-        if (nums.Length == 1)
-            result = nums[0];
+        else if (nums.Length == 1) return nums[0];
 
-        else if (nums.Length == 2)
-            result = new int[] { nums[0], nums[1] }.Max();
-
-        else if(nums.Length > 2)
+        else
         {
+            int len = nums.Length;
             //House[1] - House[n - 1]
-            var model1 = GetMaxAmount(nums.Take(nums.Length - 1).ToArray());
+            int first = StartFromHouse1orHouse2(nums, 0, len - 2);
 
             //House[2] - House[n]
-            var model2 = GetMaxAmount(nums.Skip(1).ToArray());
+            int second = StartFromHouse1orHouse2(nums, 1, len - 1);
 
-            result = new int[] { model1, model2 }.Max();
+            return Math.Max(first, second);
         }
-
-        return result;
     }
 
-    static int GetMaxAmount(int[] nums)
+    int Rob(int[] nums)
     {
-        var temp = new int[nums.Length];
+        //Since House[1] and House[n] are adjacent, they cannot be robbed together. Therefore, the problem becomes to rob either House[1]-House[n-1] or House[2]-House[n]
 
-        temp[0] = nums[0];
-        temp[1] = new int[] { nums[0], nums[1] }.Max();
+        if (nums.Length == 0) return 0;
 
-        for (int i = 2; i < nums.Length; i++)
+        else if (nums.Length == 1) return nums[0];
+
+        else
         {
-            var array = new int[] {
-                    nums[i] + temp[i - 2],
-                    temp[i - 1]
-                };
+            int len = nums.Length;
+            //House[1] - House[n - 1]
+            int first = StartFromHouse1orHouse2(nums, 0, len - 2);
 
-            temp[i] = array.Max();
+            //House[2] - House[n]
+            int second = StartFromHouse1orHouse2(nums, 1, len - 1);
+
+            return Math.Max(first, second);
         }
-
-        return temp[nums.Length - 1];
     }
 }
