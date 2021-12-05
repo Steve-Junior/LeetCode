@@ -9,16 +9,24 @@ public class Solution
 
         var result = 0;
 
-        if (nums.Length < 3)
-            return result;
+        if (nums.Length == 1)
+            result = nums[0];
 
-        //House[1] - House[n - 1]
-        var ans1 = GetMaxAmount(nums.Take(nums.Length - 1).ToArray());
+        else if (nums.Length == 2)
+            result = new int[] { nums[0], nums[1] }.Max();
 
-        //House[2] - House[n]
-        var ans2 = GetMaxAmount(nums.Skip(1).ToArray());
+        else if(nums.Length > 2)
+        {
+            //House[1] - House[n - 1]
+            var model1 = GetMaxAmount(nums.Take(nums.Length - 1).ToArray());
 
-        return new int[] { ans1, ans2 }.Max();
+            //House[2] - House[n]
+            var model2 = GetMaxAmount(nums.Skip(1).ToArray());
+
+            result = new int[] { model1, model2 }.Max();
+        }
+
+        return result;
     }
 
     static int GetMaxAmount(int[] nums)
